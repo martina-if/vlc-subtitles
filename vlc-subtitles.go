@@ -26,14 +26,13 @@ func main() {
 		fmt.Println(err)
 	}
 
-	if launchFlagEnabled() {
-		launchVlc(filePath)
-	}
+	launchVlc(filePath)
 }
 
 func downloadSubtitle(filePath string) error {
 	fileName := path.Base(filePath)
 
+	fileName = strings.Replace(fileName, "Greys", "Grey's", 1)
 	addicted := addic7ed.New()
 	_, subtitle, err := addicted.SearchBest(fileName, "English")
 	if err != nil {
@@ -50,15 +49,6 @@ func downloadSubtitle(filePath string) error {
 	return nil
 }
 
-func launchFlagEnabled() bool {
-	for _, argument := range os.Args[1:] {
-		if argument == "--launch-vlc" || argument == "--launch" {
-			return true
-		}
-	}
-	return false
-}
-
 func videoFilePath() (string, error) {
 	for _, argument := range os.Args[1:] {
 		if !strings.HasPrefix(argument, "--") {
@@ -69,7 +59,7 @@ func videoFilePath() (string, error) {
 }
 
 func launchVlc(filePath string) {
-	cmd := exec.Command("vlc", filePath)
+	cmd := exec.Command("/usr/bin/real-vlc", filePath)
 	err := cmd.Run()
 	if err != nil {
 		fmt.Errorf("%v\n", err)
