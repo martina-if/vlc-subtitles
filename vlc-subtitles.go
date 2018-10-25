@@ -69,7 +69,7 @@ func videoFilePath() (string, error) {
 }
 
 func launchVlc(filePath string) {
-	cmd := exec.Command("/usr/bin/vlc", filePath)
+	cmd := exec.Command("vlc", filePath)
 	err := cmd.Run()
 	if err != nil {
 		fmt.Errorf("%v\n", err)
